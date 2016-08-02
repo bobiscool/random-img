@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* 一时间改变的 只有一个 随机图片  src 随机运动上下  随机运动时间  */
+        #Outer-border { width:300px;height:500px;border:1px solid black; margin:30px auto;}
+        .img-border { position:relative;float:left;width:130px;height:80px;border:none;margin-left:10px;margin-top:10px; overflow:hidden;}
+        .imgA { position:absolute;top:0;max-width:130px; max-height: 80px;}
+        .imgB { position:absolute;top:80px;max-width:130px;  max-height: 80px; }
+
+    </style>
+    <script src="Domove.js"></script>
+    <script>
+        window.onload=function(){
+            var Aurl = ['img/377adab44aed2e7394aa5a128f01a18b87d6fa49.jpg','img/200810309416546_2.jpg','img/Grey_squirrel_400px.jpg','img/grey_squirrel_by_lou_in_canada-d4gfxmh.jpg','img/u=1132236259,393966301&fm=21&gp=0.jpg','img/u=3939984853,1353410264&fm=21&gp=0.jpg','img/u=3950945812,3385900676&fm=21&gp=0.jpg','img/ZUE1OUd0ek9uSmRJRkRJUG9OaHdzV1lOS2c4TndzQUhySW5ubUN3c2lUNWFXdE5aWTllbC9BPT0.jpg'];
+            var Aimdiv = document.querySelectorAll('.img-border');
+            for(var i=0;i<Aimdiv.length;i++){
+                Aimdiv[i].Old = i;  //最初始
+            }
+            /**先来一个/
+             * 随机图片但是不能 重复   记住上一个
+             * 随机 时间 随机方向
+             */
+
+            for(var i =0;i<Aimdiv.length;i++) {
+                (function (t){Aimdiv[t].timer = setInterval(function () {
+                    RandomC(Aimdiv[t]);
+                }, Math.random() * 2000 + 300);})(i);
+            }
+
+            function RandomC(obj){
+                /*
+                 给 obj添加一张 随机图片 但与上一张不同
+                 随机方向
+                 * */
+                var tuA  = obj.querySelector('.imgA');
+                var tuB = obj.querySelector('.imgB');
+                var Num = Math.round(Math.random()*6);
+                if (Num != obj.Old) {
+                    tuB.src = Aurl[Num];
+                } else {
+                    Num = (Num + 1) % 7;
+                    tuB.src = Aurl[Num];
+                }
+                obj.Old = Num;
+                var Direc = Math.random()*10-5;
+                console.log(Direc);
+                if(Direc>0) {
+                    if(Direc>2.5){
+
+                        suiji(0,-130,"left");
+                    }else{
+
+                        suiji(80,0,"top");
+                    }
+                }else {
+                    if(Direc<-2.5){
+                        suiji(-80,0,"top");
+                    }else {
+                        suiji(0,130,"left");
+                    }
+                }
+
+
+                function suiji(t,l,p){
+                    tuB.style.top = t+'px';
+                    tuB.style.left = l+'px';
+                    var q = -parseFloat(tuB.style[p]);
+                    Domove(tuA, p, 20, q, function () {
+                        tuA.className = "imgB";
+                        tuA.style[p] = (-q)+'px';
+                    });
+                    Domove(tuB, p, 20, 0, function () {
+                        tuB.className = "imgA";
+                    });
+                }
+
+            }
+
+
+
+
+
+        }
+    </script>
+</head>
+<body>
+<div id="Outer-border">
+    <div class="img-border">
+        <img class="imgA" src="img/377adab44aed2e7394aa5a128f01a18b87d6fa49.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/200810309416546_2.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/Grey_squirrel_400px.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/grey_squirrel_by_lou_in_canada-d4gfxmh.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/u=1132236259,393966301&fm=21&gp=0.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/u=3939984853,1353410264&fm=21&gp=0.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/L0JkWGlSWVF1T3NrQVhTN3FZQ3gwQTg5bXp3bEJsOFFHUDZkbTNaL2cxcDdVUXhpUnVQbTJBPT0.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/u=3950945812,3385900676&fm=21&gp=0.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/NkgwZkcyQmRQNGlJRjkxamdCUFRPbm80bXR5MG80Y0FDYWJCRFYwanJyUVlnY2VsLzF2TDNBPT0.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+    <div class="img-border">
+        <img class="imgA" src="img/ZUE1OUd0ek9uSmRJRkRJUG9OaHdzV1lOS2c4TndzQUhySW5ubUN3c2lUNWFXdE5aWTllbC9BPT0.jpg">
+        <img class="imgB" src="img/200810309416546_2.jpg">
+    </div>
+</div>
+</body>
+</html>
